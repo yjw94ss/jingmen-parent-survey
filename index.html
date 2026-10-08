@@ -108,18 +108,43 @@
 
   <div id="doneView" class="done hidden">
     <div class="done-inner">
+
       <div class="tick">✓</div>
       <h2>已收到您的填写</h2>
       <p id="doneMsg"></p>
 
-      <div id="shareBox" class="share-box">
-        <p class="share-lead">请把下面这段文字<strong>复制后发给发放问卷的老师</strong>，这样您的回答才会被统计到。</p>
-        <textarea id="shareText" class="share-text" rows="9" readonly></textarea>
-        <div class="share-btns">
-          <button type="button" id="btnCopy" class="primary">复制结果</button>
-          <button type="button" id="btnDownload" class="ghost-btn">下载为 txt</button>
+      <!-- 回执卡：专为截图回传设计 -->
+      <div id="receiptCard" class="receipt">
+        <div class="receipt-head">
+          <div class="receipt-brand">荆门儿童AI创意体验</div>
+          <div class="receipt-title">家长需求调研 · 填写回执</div>
+          <div class="receipt-meta">
+            <span>问卷编号 <b id="rNo"></b></span>
+            <span id="rTime"></span>
+          </div>
         </div>
-        <p class="share-tip">内容不含姓名、电话等身份信息。复制后直接粘贴到微信发给老师即可。</p>
+        <div class="receipt-body" id="rBody"></div>
+        <div class="receipt-foot">
+          本问卷为匿名填写，不收集姓名、电话等身份信息。填写内容仅用于了解家长真实需求，
+          不代表报名或儿童能力测评。如需参与后续体验，请另行自愿登记。
+        </div>
+      </div>
+
+      <div class="shot-tip">↑ 长按图片或按 <kbd>P</kbd> 截图保存，发给发放问卷的老师即可</div>
+
+      <!-- 数据回传通道：默认隐藏，截图时看不到 -->
+      <div id="shareBox" class="share-box">
+        <details class="share-fold">
+          <summary>没截图？也可以复制文字发送</summary>
+          <div class="share-inner">
+            <textarea id="shareText" class="share-text" rows="9" readonly></textarea>
+            <div class="share-btns">
+              <button type="button" id="btnCopy" class="primary">复制结果</button>
+              <button type="button" id="btnDownload" class="ghost-btn">下载为 txt</button>
+            </div>
+            <p class="share-tip">内容不含姓名、电话等身份信息。复制后直接粘贴到微信发给老师即可。</p>
+          </div>
+        </details>
       </div>
 
       <p class="done-id">问卷编号：<span id="doneId"></span></p>

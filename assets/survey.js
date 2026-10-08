@@ -105,6 +105,38 @@
     if (nr) nr.classList.remove('hidden');
   }
 
+  // ---- 回执卡渲染：按原表 4 个板块排版 ----
+  function renderReceipt(row) {
+    const body = document.getElementById('rBody');
+    if (!body) return;
+
+    document.getElementById('rNo').textContent = String(row.id || '').slice(-6) || '—';
+    document.getElementById('rTime').textContent = store.formatTime(row.created_at);
+
+    body.innerHTML = S.SECTIONS.map(sec => {
+      const qs = S.QUESTIONS.filter(q => q.section === sec.id && String(row[S.COLUMNS[q.id]] || '').trim());
+      if (!qs.length) return '';
+      const items = qs.map(q => {
+        const raw = String(row[S.COLUMNS[q.id]] || '').trim();
+        const val = q.type === 'multi'
+          ? raw.split('｜').filter(Boolean).join('　·　')
+          : raw;
+        return '<div class="rrow">' +
+          '<div class="rq">' + q.no + '</div>' +
+          '<div class="rv"><span class="rl">' + q.label + '</span>' +
+          '<span class="rt">' + escapeHtml(val) + '</span></div>' +
+          '</div>';
+      }).join('');
+      return '<div class="rsec"><div class="rsec-t">' + escapeHtml(sec.title) + '</div>' +
+        items + '</div>';
+    }).join('');
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
   // ---- 提交 ----
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -143,12 +175,15 @@
         // 已接云端：家长无需任何后续动作
         document.getElementById('doneMsg').textContent =
           '感谢您花时间填写这份需求调研。您的回答仅用于了解真实需求，不代表报名或测评。';
+        const shot = document.querySelector('.shot-tip');
+        if (shot) shot.classList.add('hidden');
         const box = document.getElementById('shareBox');
         if (box) box.classList.add('hidden');
       } else {
-        // 未接云端：给出可发给老师的文本
+        // 未接云端：回执卡 + 截图回传
         document.getElementById('doneMsg').textContent =
-          '问卷已生成。请复制下面的结果发给发放问卷的老师，您的回答才会进入统计。';
+          '下面就是您的填写回执，截图发给发放问卷的老师即可完成提交。';
+        renderReceipt(row);
         const st = document.getElementById('shareText');
         if (st) st.value = store.toShareText(row);
       }

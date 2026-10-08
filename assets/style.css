@@ -334,43 +334,159 @@ textarea:focus {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* ---------- 提交后分享结果 ---------- */
-.share-box {
+/* ---------- 回执卡（截图主体） ---------- */
+.receipt {
+  background: #fbfbfd;
+  color: #1c1f26;
+  border-radius: 14px;
   margin-top: 18px;
-  padding: 16px;
+  text-align: left;
+  overflow: hidden;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, .34);
+  border: 1px solid rgba(0, 0, 0, .1);
+}
+.receipt-head {
+  background: linear-gradient(135deg, #2f5fb3, #4d84e0);
+  color: #fff;
+  padding: 15px 18px 14px;
+}
+.receipt-brand {
+  font-size: 11.5px;
+  opacity: .88;
+  letter-spacing: .6px;
+}
+.receipt-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: 2px;
+  letter-spacing: .3px;
+}
+.receipt-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 9px;
+  font-size: 11.5px;
+  opacity: .92;
+  flex-wrap: wrap;
+}
+.receipt-meta b {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 1px;
+}
+
+.receipt-body { padding: 4px 18px 6px; }
+.rsec { padding: 12px 0 4px; }
+.rsec + .rsec { border-top: 1px dashed #dcdfe6; }
+.rsec-t {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #2f5fb3;
+  margin-bottom: 7px;
+  letter-spacing: .2px;
+}
+.rrow {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 9px;
+  padding: 5px 0;
+  align-items: start;
+}
+.rq {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: #8b93a1;
+  padding-top: 2px;
+  font-weight: 600;
+}
+.rv { min-width: 0; }
+.rl {
+  display: block;
+  font-size: 11.5px;
+  color: #7b8391;
+  line-height: 1.5;
+}
+.rt {
+  display: block;
+  font-size: 14px;
+  color: #14171d;
+  line-height: 1.65;
+  font-weight: 500;
+  margin-top: 1px;
+  overflow-wrap: anywhere;
+}
+
+.receipt-foot {
+  background: #f1f3f7;
+  color: #6b7280;
+  font-size: 11px;
+  line-height: 1.75;
+  padding: 11px 18px 13px;
+  border-top: 1px solid #e4e7ec;
+}
+
+.shot-tip {
+  margin-top: 12px !important;
+  font-size: 12.5px !important;
+  color: var(--accent) !important;
+}
+.shot-tip kbd {
   background: var(--panel-2);
-  border: 1px solid var(--accent-dim);
-  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px;
+}
+
+/* ---------- 折叠的文字回传通道（截图时不显示） ---------- */
+.share-box {
+  margin-top: 16px;
   text-align: left;
 }
-.share-lead {
-  margin: 0 0 11px !important;
-  font-size: 14px !important;
-  color: var(--text-2) !important;
-  line-height: 1.7;
+.share-fold {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
 }
-.share-lead strong { color: var(--accent); }
+.share-fold summary {
+  cursor: pointer;
+  font-size: 13.5px;
+  color: var(--text-2);
+  list-style: none;
+  user-select: none;
+}
+.share-fold summary::-webkit-details-marker { display: none; }
+.share-fold summary::before {
+  content: "\25B8";
+  display: inline-block;
+  margin-right: 7px;
+  color: var(--text-3);
+  transition: transform .18s;
+}
+.share-fold[open] summary::before { transform: rotate(90deg); }
+.share-fold summary:hover { color: var(--text); }
+.share-inner { margin-top: 13px; }
+
 .share-text {
   width: 100%;
-  background: var(--bg);
+  background: var(--panel-2);
   border: 1px solid var(--line);
   border-radius: 9px;
-  color: var(--text);
+  color: var(--text-2);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 12.5px;
+  font-size: 12px;
   line-height: 1.7;
   padding: 11px;
   resize: vertical;
-  margin-bottom: 12px;
+  margin-bottom: 11px;
 }
-.share-btns {
-  display: flex;
-  gap: 9px;
-}
+.share-btns { display: flex; gap: 9px; }
 .share-btns .primary { flex: 1 1 auto; padding: 12px; font-size: 15px; }
 .ghost-btn {
   flex: 0 0 auto;
-  background: var(--panel);
+  background: var(--panel-2);
   border: 1px solid var(--line);
   color: var(--text-2);
   border-radius: 11px;
@@ -384,7 +500,6 @@ textarea:focus {
   margin: 11px 0 0 !important;
   font-size: 12px !important;
   color: var(--text-3) !important;
-  text-align: center;
 }
 
 .hidden { display: none !important; }
