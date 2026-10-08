@@ -13,13 +13,14 @@ window.CloudStore = (function () {
 
   const S = window.SURVEY;
 
-  // ---- Cloud 配置（开通后由工具写入）----
+  // ---- Cloud 配置（由云服务开通后拿到的 publicConfig 写入）----
+  // endpoint / publishableKey 必填；oauthRelayBaseUrl 供将来可能加的微信扫码登录用。
   const config = {
-    enabled: false,
-    endpoint: '',
-    publishableKey: '',
-    oauthRelayBaseUrl: '',
-    resourceId: ''
+    enabled: true,
+    endpoint: 'https://parent-survey-54870.app.workbuddy.host',
+    publishableKey: 'wbpk_pYngnP01LSk9VBiskZFeuU_d5L3rqe8ADIR8WAbdHfJcKfSTB7KE45r',
+    oauthRelayBaseUrl: 'https://www.workbuddy.cn/v2/as/genie-baas/oauth',
+    resourceId: 'wbcs_toRn9KpoF6d06LPNrn03tj'
   };
 
   const LS_KEY = 'jm_survey_collected';   // 后台已收集到的答卷
