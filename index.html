@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>荆门儿童AI创意体验｜家长需求调研</title>
+<meta name="description" content="匿名填写 · 约3–4分钟 · 用于了解真实需求，不是招生报名或儿童能力测评">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="head">
+    <h1>荆门儿童AI创意体验｜家长需求调研表</h1>
+    <p class="sub">匿名填写 · 约3–4分钟 · 用于了解真实需求，不是招生报名或儿童能力测评</p>
+    <p class="tip">填写说明：单选题只选1项；多选题按题目要求选择。</p>
+  </header>
+
+  <div class="progress" id="progress">
+    <div class="bar"><i id="barFill"></i></div>
+    <span id="progressText">已完成 0 / 13 题</span>
+  </div>
+
+  <div id="notReady" class="notice hidden"></div>
+
+  <form id="surveyForm" novalidate>
+    <section class="block" data-section="s1">
+      <h2>一、孩子与家庭情况</h2>
+      <div class="q" data-qid="q01" data-type="single">
+        <div class="qhead"><span class="no">01</span><span class="qlabel">孩子年龄</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+      <div class="q" data-qid="q02" data-type="single">
+        <div class="qhead"><span class="no">02</span><span class="qlabel">家庭主要居住区域</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+      <div class="q" data-qid="q03" data-type="single">
+        <div class="qhead"><span class="no">03</span><span class="qlabel">孩子目前接触AI的程度</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+      <div class="q" data-qid="q04" data-type="multi">
+        <div class="qhead"><span class="no">04</span><span class="qlabel">孩子正在参加哪些课外活动？</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+    </section>
+
+    <section class="block" data-section="s2">
+      <h2>二、学习需求与关注点</h2>
+      <div class="q" data-qid="q05" data-type="multi">
+        <div class="qhead"><span class="no">05</span><span class="qlabel">最希望孩子提升哪些能力？</span><span class="suffix">（最多选3项）</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+      <div class="q" data-qid="q06" data-type="multi" data-max="2">
+        <div class="qhead"><span class="no">06</span><span class="qlabel">最感兴趣的AI创意体验内容是？</span><span class="suffix">（最多选2项）</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+      <div class="q" data-qid="q07" data-type="multi" data-max="3">
+        <div class="qhead"><span class="no">07</span><span class="qlabel">您最大的顾虑是什么？</span><span class="suffix">（最多选3项）</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+      <div class="q" data-qid="q08" data-type="multi" data-max="2">
+        <div class="qhead"><span class="no">08</span><span class="qlabel">什么成果最能让您认为体验有价值？</span><span class="suffix">（最多选2项）</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+    </section>
+
+    <section class="block" data-section="s3">
+      <h2>三、体验形式与付费意愿</h2>
+      <div class="q" data-qid="q09" data-type="single">
+        <div class="qhead"><span class="no">09</span><span class="qlabel">如果有一次合适的体验活动，您的态度是？</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+      <div class="q" data-qid="q10" data-type="single">
+        <div class="qhead"><span class="no">10</span><span class="qlabel">45–60分钟单次体验，您可接受的价格是？</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+      <div class="q" data-qid="q11" data-type="single">
+        <div class="qhead"><span class="no">11</span><span class="qlabel">您更愿意哪种参与频率？</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+      <div class="q" data-qid="q12" data-type="single">
+        <div class="qhead"><span class="no">12</span><span class="qlabel">您希望活动在哪个区域开展？</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+      <div class="q" data-qid="q13" data-type="single">
+        <div class="qhead"><span class="no">13</span><span class="qlabel">体验满意后，您会考虑购买系列课程或活动吗？</span><span class="req">必答</span></div>
+        <div class="opts" data-opts></div>
+      </div>
+    </section>
+
+    <section class="block" data-section="s4">
+      <h2>四、开放建议</h2>
+      <div class="q" data-qid="q14" data-type="text">
+        <div class="qhead"><span class="no">14</span><span class="qlabel">您最想让孩子创作什么？还有哪些建议？</span><span class="opt">选填</span></div>
+        <textarea data-text rows="4" maxlength="500" placeholder="例如：想让孩子做一本会自己讲故事的小绘本……（选填，可以不写）"></textarea>
+        <div class="counter" data-counter>0 / 500</div>
+      </div>
+    </section>
+
+    <div class="submit-area">
+      <div id="errMsg" class="err hidden"></div>
+      <button type="submit" id="submitBtn" class="primary">提交问卷</button>
+      <p class="foot-note">问卷不收集姓名、电话等身份信息。若愿意参与后续体验，可另行自愿登记联系方式。</p>
+    </div>
+  </form>
+
+  <div id="doneView" class="done hidden">
+    <div class="done-inner">
+      <div class="tick">✓</div>
+      <h2>已收到您的填写</h2>
+      <p id="doneMsg">感谢您花时间填写这份需求调研。您的回答仅用于了解真实需求，不代表报名或测评。</p>
+      <p class="done-id">问卷编号：<span id="doneId"></span></p>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js"></script>
+<script src="assets/questions.js"></script>
+<script src="assets/store.js"></script>
+<script src="assets/survey.js"></script>
+</body>
+</html>
