@@ -21,7 +21,9 @@
     <span id="progressText">已完成 0 / 13 题</span>
   </div>
 
-  <div id="notReady" class="notice hidden"></div>
+  <div id="notReady" class="notice hidden">
+    当前问卷页面本身不保存数据。为确保您的回答不丢失，提交后请把结果文字发给发放问卷的老师。
+  </div>
 
   <form id="surveyForm" novalidate>
     <section class="block" data-section="s1">
@@ -108,7 +110,18 @@
     <div class="done-inner">
       <div class="tick">✓</div>
       <h2>已收到您的填写</h2>
-      <p id="doneMsg">感谢您花时间填写这份需求调研。您的回答仅用于了解真实需求，不代表报名或测评。</p>
+      <p id="doneMsg"></p>
+
+      <div id="shareBox" class="share-box">
+        <p class="share-lead">请把下面这段文字<strong>复制后发给发放问卷的老师</strong>，这样您的回答才会被统计到。</p>
+        <textarea id="shareText" class="share-text" rows="9" readonly></textarea>
+        <div class="share-btns">
+          <button type="button" id="btnCopy" class="primary">复制结果</button>
+          <button type="button" id="btnDownload" class="ghost-btn">下载为 txt</button>
+        </div>
+        <p class="share-tip">内容不含姓名、电话等身份信息。复制后直接粘贴到微信发给老师即可。</p>
+      </div>
+
       <p class="done-id">问卷编号：<span id="doneId"></span></p>
     </div>
   </div>

@@ -294,6 +294,64 @@ table.cross td.num { font-family: ui-monospace, SFMono-Regular, Menlo, monospace
 }
 .del-btn:hover { background: rgba(255, 107, 107, .12); }
 
+/* ---------- 导入面板 ---------- */
+.imp-title {
+  font-size: 15px;
+  margin: 0 0 12px;
+  color: var(--text);
+}
+.imp-steps {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  color: var(--text-2);
+  font-size: 13.5px;
+  line-height: 1.9;
+}
+.imp-steps li { margin-bottom: 3px; }
+#impText {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13.5px;
+  line-height: 1.7;
+  padding: 12px;
+  resize: vertical;
+}
+#impText:focus { outline: none; border-color: var(--accent); }
+.imp-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.imp-msg {
+  margin-top: 12px;
+  font-size: 13.5px;
+  padding: 10px 13px;
+  border-radius: 9px;
+  display: none;
+}
+.imp-msg.ok {
+  display: block;
+  background: rgba(87, 217, 163, .12);
+  color: var(--ok);
+  border: 1px solid rgba(87, 217, 163, .3);
+}
+.imp-msg.err {
+  display: block;
+  background: rgba(255, 107, 107, .12);
+  color: #ffb3b3;
+  border: 1px solid rgba(255, 107, 107, .35);
+}
+.primary-look {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: #cfe1ff;
+}
+
 /* ---------- 使用说明 ---------- */
 .guide-item {
   background: var(--panel);

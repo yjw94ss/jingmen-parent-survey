@@ -334,4 +334,57 @@ textarea:focus {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* ---------- 提交后分享结果 ---------- */
+.share-box {
+  margin-top: 18px;
+  padding: 16px;
+  background: var(--panel-2);
+  border: 1px solid var(--accent-dim);
+  border-radius: var(--radius);
+  text-align: left;
+}
+.share-lead {
+  margin: 0 0 11px !important;
+  font-size: 14px !important;
+  color: var(--text-2) !important;
+  line-height: 1.7;
+}
+.share-lead strong { color: var(--accent); }
+.share-text {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  padding: 11px;
+  resize: vertical;
+  margin-bottom: 12px;
+}
+.share-btns {
+  display: flex;
+  gap: 9px;
+}
+.share-btns .primary { flex: 1 1 auto; padding: 12px; font-size: 15px; }
+.ghost-btn {
+  flex: 0 0 auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  border-radius: 11px;
+  padding: 12px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.ghost-btn:hover { border-color: var(--accent); color: var(--accent); }
+.share-tip {
+  margin: 11px 0 0 !important;
+  font-size: 12px !important;
+  color: var(--text-3) !important;
+  text-align: center;
+}
+
 .hidden { display: none !important; }

@@ -59,6 +59,7 @@
 
   // ---------- Tab 切换 ----------
   const PANELS = {
+    import: 'panel-import',
     dist: 'panel-dist',
     cross: 'panel-cross',
     open: 'panel-open',
@@ -100,22 +101,96 @@
     const st = $('storeState');
     st.className = 'store-state ' + (persisted ? 'cloud' : 'local');
     st.textContent = persisted
-      ? '● 已连接云端数据库，数据实时保存'
-      : '● 未接入云端：当前数据仅保存在本页内存，刷新即丢失';
+      ? '● 已连接云端数据库：家长提交即入库，这里实时显示'
+      : '● 本地收集箱：数据保存在这台电脑的浏览器里。换电脑或清缓存前请先导出备份。';
 
     const empty = $('emptyTip');
     if (!rows.length) {
-      empty.textContent = '还没有收到答卷。把家长填写页链接发出去，收到的答卷会自动汇总到这里。';
+      empty.textContent = '还没有收到答卷。切换到「导入答卷」页，把家长发回的结果文字粘进来即可开始统计。';
       empty.classList.remove('hidden');
     } else {
       empty.classList.add('hidden');
     }
 
+    renderImport();
     renderDist();
     renderCross();
     renderOpen();
     renderList();
     renderGuide();
+  }
+
+  // ---------- 导入面板 ----------
+  function renderImport() {
+    const panel = $('panel-import');
+    panel.innerHTML =
+      '<h3 class="imp-title">把家长发回的结果导入这里</h3>' +
+      '<ol class="imp-steps">' +
+      '<li>家长在填写页提交后，会得到一段以「【荆门儿童AI创意体验·家长需求调研】」开头的结果文字。</li>' +
+      '<li>让家长用微信把这段文字发给你。可以一次粘贴多份（中间空一行）。</li>' +
+      '<li>把收到的内容粘贴到下面，点「导入」。重复内容会自动跳过。</li>' +
+      '</ol>' +
+      '<textarea id="impText" rows="7" placeholder="在此粘贴家长发回的结果文字…"></textarea>' +
+      '<div class="imp-btns">' +
+      '<button class="ghost" id="btnParse">导入</button>' +
+      '<button class="ghost" id="btnFile">从 txt / json 文件导入</button>' +
+      '<input type="file" id="impFile" accept=".txt,.json" class="hidden">' +
+      '<button class="ghost" id="btnClear">清空全部数据</button>' +
+      '</div>' +
+      '<div id="impMsg" class="imp-msg"></div>';
+
+    $('btnParse').addEventListener('click', () => doImport($('impText').value));
+
+    $('btnFile').addEventListener('click', () => $('impFile').click());
+    $('impFile').addEventListener('change', e => {
+      const f = e.target.files && e.target.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        $('impText').value = String(reader.result || '');
+        doImport($('impText').value);
+      };
+      reader.onerror = () => msg('读取文件失败，请改用粘贴方式。', true);
+      reader.readAsText(f, 'utf-8');
+    });
+
+    $('btnClear').addEventListener('click', async () => {
+      if (!rows.length) return msg('当前没有数据。', true);
+      if (!confirm('确定清空全部 ' + rows.length + ' 份答卷吗？此操作不可恢复，建议先导出备份。')) return;
+      for (const r of rows.slice()) {
+        try { await store.remove(r.id); } catch (e) {}
+      }
+      msg('已清空。');
+      load();
+    });
+  }
+
+  function msg(text, isErr) {
+    const el = $('impMsg');
+    if (!el) return;
+    el.textContent = text;
+    el.className = 'imp-msg' + (isErr ? ' err' : ' ok');
+  }
+
+  function doImport(text) {
+    const res = store.parseImport(text);
+    if (!res.ok) return msg('导入失败：' + res.error, true);
+    const out = store.importRows(res.rows);
+    if (!out.ok) return msg('导入失败：' + out.error, true);
+    if (out.added === 0) {
+      msg('没有新增（' + out.dup + ' 份重复已跳过）。当前共 ' + out.total + ' 份。', true);
+      return;
+    }
+    // load() 会重渲染导入面板，提示需在重渲染后重新挂上
+    msg('成功导入 ' + out.added + ' 份' +
+      (out.dup ? '（跳过 ' + out.dup + ' 份重复）' : '') +
+      '，当前共 ' + out.total + ' 份。');
+    $('impText').value = '';
+    load().then(() => {
+      msg('成功导入 ' + out.added + ' 份' +
+        (out.dup ? '（跳过 ' + out.dup + ' 份重复）' : '') +
+        '，当前共 ' + out.total + ' 份。');
+    });
   }
 
   // ---------- 分布统计 ----------

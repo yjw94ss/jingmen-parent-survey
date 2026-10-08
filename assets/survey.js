@@ -101,8 +101,8 @@
 
   // ---- 云端状态提示 ----
   if (!store.isReady()) {
-    notReady.textContent = '提示：当前尚未接入云端数据库，提交后内容只保留在本页，刷新后会丢失。';
-    notReady.classList.remove('hidden');
+    const nr = document.getElementById('notReady');
+    if (nr) nr.classList.remove('hidden');
   }
 
   // ---- 提交 ----
@@ -118,11 +118,11 @@
     if (missing.length) {
       const first = form.querySelector('.q[data-qid="' + missing[0] + '"]');
       if (first) {
-        first.classList.add('invalid');
+        first.classList.remove('invalid');
         first.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-      errMsg.textContent = '还有 ' + missing.length + ' 道必答题未完成（' +
-        missing.map(id => id.replace('q', '') + '.').join('、') + '），请补充后再提交。';
+      errMsg.textContent = '还有 ' + missing.length + ' 道必答题未完成：第 ' +
+        missing.map(id => id.replace('q', '')).join('、') + ' 题，请补充后再提交。';
       errMsg.classList.remove('hidden');
       return;
     }
@@ -135,13 +135,28 @@
 
     try {
       const res = await store.submit(answers);
-      const no = res.row && res.row.id ? String(res.row.id).slice(-6) : '—';
-      document.getElementById('doneId').textContent = no;
-      document.getElementById('doneMsg').textContent = res.persisted
-        ? '感谢您花时间填写这份需求调研。您的回答仅用于了解真实需求，不代表报名或测评。'
-        : '感谢您填写。但当前未接入云端数据库，这份答卷只在本页有效，刷新后不会保留。';
+      const row = res.row || {};
+      const no = String(row.id || '').slice(-6);
+      document.getElementById('doneId').textContent = no || '—';
+
+      if (res.persisted) {
+        // 已接云端：家长无需任何后续动作
+        document.getElementById('doneMsg').textContent =
+          '感谢您花时间填写这份需求调研。您的回答仅用于了解真实需求，不代表报名或测评。';
+        const box = document.getElementById('shareBox');
+        if (box) box.classList.add('hidden');
+      } else {
+        // 未接云端：给出可发给老师的文本
+        document.getElementById('doneMsg').textContent =
+          '问卷已生成。请复制下面的结果发给发放问卷的老师，您的回答才会进入统计。';
+        const st = document.getElementById('shareText');
+        if (st) st.value = store.toShareText(row);
+      }
+
       form.classList.add('hidden');
       document.getElementById('progress').classList.add('hidden');
+      const nr = document.getElementById('notReady');
+      if (nr) nr.classList.add('hidden');
       document.getElementById('doneView').classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
@@ -152,6 +167,50 @@
       submitBtn.textContent = '提交问卷';
     }
   });
+
+  // ---- 复制结果 ----
+  const btnCopy = document.getElementById('btnCopy');
+  const btnDl = document.getElementById('btnDownload');
+  const shareText = document.getElementById('shareText');
+
+  if (btnCopy) {
+    btnCopy.addEventListener('click', async () => {
+      const text = shareText.value;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          shareText.select();
+          shareText.setSelectionRange(0, shareText.value.length);
+          document.execCommand('copy');
+        }
+        btnCopy.textContent = '已复制 ✓';
+      } catch (e) {
+        shareText.select();
+        btnCopy.textContent = '请手动复制';
+      }
+      setTimeout(() => { btnCopy.textContent = '复制结果'; }, 2400);
+    });
+  }
+
+  if (btnDl) {
+    btnDl.addEventListener('click', () => {
+      const blob = new Blob([shareText.value], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = '问卷结果_' + (document.getElementById('doneId').textContent || '') + '.txt';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 200);
+    });
+  }
+
+  // ---- 防重复提交 ----
+  if (store.hasSubmitted()) {
+    // 不打扰已提交的人重新填，只在完成页给个提示入口
+    const done = document.getElementById('doneView');
+    done.classList.add('hidden');
+  }
 
   updateProgress();
 })();
