@@ -105,31 +105,23 @@
     if (nr) nr.classList.remove('hidden');
   }
 
-  // ---- 回执卡渲染：按原表 4 个板块排版 ----
+  // ---- 回执图片：渲染成真正的 PNG，家长可长按保存 ----
   function renderReceipt(row) {
-    const body = document.getElementById('rBody');
-    if (!body) return;
-
-    document.getElementById('rNo').textContent = String(row.id || '').slice(-6) || '—';
-    document.getElementById('rTime').textContent = store.formatTime(row.created_at);
-
-    body.innerHTML = S.SECTIONS.map(sec => {
-      const qs = S.QUESTIONS.filter(q => q.section === sec.id && String(row[S.COLUMNS[q.id]] || '').trim());
-      if (!qs.length) return '';
-      const items = qs.map(q => {
-        const raw = String(row[S.COLUMNS[q.id]] || '').trim();
-        const val = q.type === 'multi'
-          ? raw.split('｜').filter(Boolean).join('　·　')
-          : raw;
-        return '<div class="rrow">' +
-          '<div class="rq">' + q.no + '</div>' +
-          '<div class="rv"><span class="rl">' + q.label + '</span>' +
-          '<span class="rt">' + escapeHtml(val) + '</span></div>' +
-          '</div>';
-      }).join('');
-      return '<div class="rsec"><div class="rsec-t">' + escapeHtml(sec.title) + '</div>' +
-        items + '</div>';
-    }).join('');
+    const img = document.getElementById('receiptImg');
+    if (!img) return;
+    try {
+      const url = window.ReceiptImage.render(row);
+      if (url) {
+        img.src = url;
+        img.classList.remove('hidden');
+      } else {
+        img.classList.add('hidden');
+      }
+    } catch (e) {
+      img.classList.add('hidden');
+      const cap = document.querySelector('.shot-figure');
+      if (cap) cap.classList.add('hidden');
+    }
   }
 
   function escapeHtml(s) {
@@ -182,7 +174,7 @@
       } else {
         // 未接云端：回执卡 + 截图回传
         document.getElementById('doneMsg').textContent =
-          '下面就是您的填写回执，截图发给发放问卷的老师即可完成提交。';
+          '下面就是您的填写回执图片，截图或长按保存后发给发放问卷的老师即可完成提交。';
         renderReceipt(row);
         const st = document.getElementById('shareText');
         if (st) st.value = store.toShareText(row);

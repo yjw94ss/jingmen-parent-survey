@@ -113,26 +113,15 @@
       <h2>已收到您的填写</h2>
       <p id="doneMsg"></p>
 
-      <!-- 回执卡：专为截图回传设计 -->
-      <div id="receiptCard" class="receipt">
-        <div class="receipt-head">
-          <div class="receipt-brand">荆门儿童AI创意体验</div>
-          <div class="receipt-title">家长需求调研 · 填写回执</div>
-          <div class="receipt-meta">
-            <span>问卷编号 <b id="rNo"></b></span>
-            <span id="rTime"></span>
-          </div>
-        </div>
-        <div class="receipt-body" id="rBody"></div>
-        <div class="receipt-foot">
-          本问卷为匿名填写，不收集姓名、电话等身份信息。填写内容仅用于了解家长真实需求，
-          不代表报名或儿童能力测评。如需参与后续体验，请另行自愿登记。
-        </div>
-      </div>
+      <!-- 回执图片：真正的 PNG，家长可长按保存/转发 -->
+      <figure class="shot-figure">
+        <img id="receiptImg" alt="家长需求调研填写回执" />
+        <figcaption class="shot-tip">
+          长按上方图片即可保存或转发给发放问卷的老师
+        </figcaption>
+      </figure>
 
-      <div class="shot-tip">↑ 长按图片或按 <kbd>P</kbd> 截图保存，发给发放问卷的老师即可</div>
-
-      <!-- 数据回传通道：默认隐藏，截图时看不到 -->
+      <!-- 数据回传通道：默认折叠 -->
       <div id="shareBox" class="share-box">
         <details class="share-fold">
           <summary>没截图？也可以复制文字发送</summary>
@@ -156,6 +145,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tencent-ai/workbuddy-cloud-sdk@dev/lib/index.global.js"></script>
 <script src="assets/questions.js"></script>
 <script src="assets/store.js"></script>
+<script src="assets/receipt-image.js"></script>
 <script src="assets/survey.js"></script>
 </body>
 </html>
